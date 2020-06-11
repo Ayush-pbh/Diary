@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Read</title>
+    <link rel="stylesheet" href="{% static 'main/read.css' %}">
+    
+  </head>
+  <body>
+    <div class="body" id="body">
+    </div>
+    <div class="navbar">
+      <button><a href="{% url 'main:index' %}">Write Mode</a></button>
+      <input type="text" name="search" id="searchf" placeholder="Search Entries" onkeydown="Search(event)">
+    </div>
+    <script>
+      var djangolist = Array(
+        {% for item in list %}
+          " {{item}} ",
+        {% endfor %}
+      );
+      var staticfolder = {% static '' %};
+    </script>
+    <form method="POST" action="{% url 'main:reading' %}" id="form" style="display: none;">
+      {% csrf_token %}
+      <input type="text" id="toread" name="toread">
+      <input type="password" name="pass" id="password">
+    </form>
+    <form method="POST" action="{% url 'main:deleteDiary' %}" id="delform" style="display: none;">
+      {% csrf_token %}
+      <input type="text" id="delname" name="toread">
+    </form>
+    <script src="{% static 'main/read.js'%}"></script>
+    <script src="{% static 'main/vanilla-tilt.js'%}"></script>
+  </body>
+</html>

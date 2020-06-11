@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Diary</title>
+    <link rel="stylesheet" href="{% static 'main/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="navpane">
+            <div class="controls">
+                <button id="saveEncrypt">Save & Encrypt</button>
+                <button id="saveNotEncrypt">Save & !Encrypt</button>
+                <button id="addCustomImage">Add custom Image</button>
+                <button><a href="{% url 'main:read' %}">Read Mode</a></button>
+            </div>
+            <div id="imagepreview">
+
+            </div>
+        </div>
+        <div class="body">
+            
+            <form action="{% url 'main:writeDiary' %}" method="POST" id="form">
+                {% csrf_token %}
+                <div class="inputarea">
+                    <input type="file" name="customImage" id="customImage" onchange="displayImagePreview()" class="hidden" accept=".jpg,.bmp,.wav,.au">
+                    <input type="text" autocomplete="off" name="title" id="title" placeholder="Title Here. *Required" >
+                    <textarea name="content" id="content" placeholder="Write you stuff here."></textarea>
+                    <input type="password" id="password" class="hidden" name="password">
+                    <input type="number" name="image" id="image" value="10"class="hidden">
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        var staticfolder = {% static '' %};
+        var imageTemplateNo = {{ imageTemplateNo }};
+    </script>
+    <script src="{% static 'main/script.js' %}" ></script>
+</body>
+</html>
