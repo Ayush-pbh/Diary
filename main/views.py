@@ -11,7 +11,10 @@ def pop(request):
 isOsWindows = False
 def initFunc():
     if (sys.platform == 'win32'):
-        osname = True
+        isOsWindows = True
+        print('The Operating System is windows')
+    else:    
+        print('The Operating System is Linux')
     
 def index(request):
     initFunc()
@@ -32,7 +35,7 @@ def encryptMe(title, content, password,image):
     name = name.replace(':','') +'.'+image+ '.jpg'
 
     #Now running commands depending upon os type.
-    if(isOsWindows):
+    if(sys.platform == 'win32'):
         #if windows [i feel sorry for you!]
         print('to copy -> '+image)
         print('copy as -> '+name)
@@ -57,7 +60,7 @@ def writeDiary(request):
     return HttpResponse(status=204)
 def deleteDiary(request):
     name = request.POST['toread'].strip()
-    if(isOsWindows):
+    if(sys.platform == 'win32'):
         #windows...
         os.system('del /f main\\static\\data\\entries\\'+name)
     else:
@@ -66,7 +69,7 @@ def deleteDiary(request):
     return redirect('main:read')
 def getReadContext():
     entryList = []
-    if(isOsWindows):
+    if(sys.platform == 'win32'):
         #windows...
         entryList = os.listdir('main\\static\\data\\entries\\')
     else:
@@ -85,7 +88,7 @@ def reading(request):
     return HttpResponse(f'<pre>{decodedText}</pre>')
 
 def decode(name,password):
-    if(isOsWindows):
+    if(sys.platform == 'win32'):
         #if windows [i feel sorry for you!]
         # os.system(f'copy data\\{image} data\\entries\\{name}')
         os.system(f'steghideforwindows\\steghide  extract -sf main\\static\\data\\entries\\{name} -xf main\\static\\data\\temp.txt -p {password} -f')
